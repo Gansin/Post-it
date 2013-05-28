@@ -1,0 +1,15 @@
+<% if @comment.errors.any? %>
+	<div class='alert alert-error'>
+		<%= @comment.errors.full_messages.join(', ') %>
+	</div>
+<% end %>
+
+
+<%= form_for ([@post, @comment]) do |f| %>
+	<%= f.label :body, "Comment on this post" %>
+	<%= f.text_area :body %>
+	<br/>
+
+	<%= f.submit "Add comments to this post" %>
+
+<% end %>

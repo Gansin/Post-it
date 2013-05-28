@@ -1,0 +1,41 @@
+<h3>The TITLE of this post is: </h3>
+
+<% if @comment.errors.any? %>
+	<div class='alert alert-error'><%= @comment.errors.full_messages.join(', ') %></div>
+	<h4><%= link_to @post.title, post_path(@post), :title => 'Return to post' %></h4>
+<% else %>
+	<h4><%= @post.title %></h4>
+<% end %>
+
+<% unless @comment.errors.any? %>
+	<strong><%= link_to @post.url, @post.url, :target => :blank %></strong>
+<% else %>
+	<h4>The URL is:</h4>
+	<strong><%= @post.url %></strong>
+<% end %>
+
+<br/>
+<h4>DESCRIPTION</H4>
+<%= @post.description %>
+<br/>
+<% unless @comment.errors.any? %>
+	 <%= link_to 'Edit Post', edit_post_path(@post) %>
+<% end %>
+<br/>
+
+
+
+<%= form_for ([@post, @comment]) do |f| %>
+	<%= f.label :body, "Comment on this post?" %>
+	<%= f.text_area :body %>
+	<br/>
+	<%= f.submit "Submit comments to this post" %>
+<% end %>
+
+<br/>
+<h5>Existing comments for this post:</h5>
+<ul>
+	<%= @post.reload.comments.each do |comment| %>
+	<li><%= comment.body %></li>
+<% end %>
+</ul>
