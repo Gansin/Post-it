@@ -63,7 +63,7 @@ def update
  end
 
 def vote
-binding.pry
+#binding.pry
   post = Post.find(params[:id])
   Vote.create(voteable: post, user: current_user, vote: params[:vote])
 
