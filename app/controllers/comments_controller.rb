@@ -5,24 +5,26 @@ class CommentsController < ApplicationController
 # the "only:" is the key 
 	before_filter :require_user
 
+def new
+	#binding.pry
+	@post = Post.find(params[:post_id])
+	# binding.pry
+	# @comment = @post.comments.new(params[:comment])
+	@comment = Comment.new
+end
+
 def show
 	@post = Post.find(params[:post_id])
 	# @comment = @post.comments.find(params[:id])
 	@comment = @post.comments.build
 end
 
-def new
-	#binding.pry
-	@post = Post.find(params[:post_id])
-	# binding.pry
-	# @comment = @post.comments.new(params[:comment])
-	@comment = @post.comments.new
-end
+
 
 
  def create
  	#binding.pry
- #	@post = Post.find(params[:post_id])
+ 	@post = Post.find(params[:post_id])
  #	@comment = @post.comments.new(params[:comment])
  	# @comment.user_id = 1 # TODO set user after we have authentication
  	# @comment.post = @post
@@ -30,7 +32,7 @@ end
  	@comment = Comment.new(params[:comment])
  	@comment.user_id = session[:user_id]
  	@comment.post_id = params[:post_id]
- 	@post = Post.find(params[:post_id])
+ 
 
  	if @comment.save
  		flash[:notice] = "Comment created"
@@ -39,6 +41,30 @@ end
  		render 'posts/show'
  	end  # end if-else
  end #end the def
+
+def edit
+	@comment = @post.comments.find(params[:comment])
+end
+
+def update 
+	@comment = Comment.find(params[:id])
+	if @comment.update_attributes(params[:comment])
+			flash[:notice] = "Comment was updated"
+			redirect_to post_path(@post)
+		else
+			render :edit
+		end
+end
+def vote
+	@post = Post.find(params[:post_id])
+	@comment = Comment.find(params[:id])
+	Vote.create(voteable: @comment, user: current_user, vote: params[:vote])
+
+	flash[:notice] = "Your vote was counted"
+	redirect_to posts_path(@post)
+end
+
+
 
  def destroy
  	@post = Post.find(params[:post_id])

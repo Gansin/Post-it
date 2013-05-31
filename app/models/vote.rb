@@ -14,16 +14,16 @@ class Vote < ActiveRecord::Base
 # statement tells computer to go look for two variables, one called votable_type, the other called votable_id
 
 
-	has_many :posts
+#	has_many :posts
 
 # Many to Many
 # 1. has_and_belongs_to_many
 # 2. has_man through
 
-	has_many :post_categories
-	has_many :comments
+#	has_many :post_categories
+#	has_many :comments
 
 
-	has_secure_password
-	validates :username, presence: true
+#	has_secure_password
+#	validates :username, presence: true
 end

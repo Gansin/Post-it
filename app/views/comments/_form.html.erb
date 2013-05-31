@@ -4,6 +4,15 @@
 	</div>
 <% end %>
 
+<% @post.reload.comments.each do |comment| %>
+<div class='row'>
+	<div class='span1 text-center well'>
+			<%= link_to "upvote", vote_post_comment_path(comment, vote: true), method: 'post' %>
+		</br>
+		<%= "Total: " + comment.total_votes.to_s %>
+		<br/>
+			<%= link_to "downvote", vote_post_comment_path(comment, vote: false), method: 'post' %>
+	</div>
 
 <%= form_for ([@post, @comment]) do |f| %>
 	<%= f.label :body, "Comment on this post" %>
